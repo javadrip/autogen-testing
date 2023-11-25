@@ -1,15 +1,20 @@
 import os
+
 import autogen
-from dotenv import load_dotenv
 
-load_dotenv()
+# NOTE: Not required if running models locally
+# from dotenv import load_dotenv
 
-chatgpt_key = os.getenv("CHATGPT_KEY")
+# load_dotenv()
+
+# chatgpt_key = os.getenv("CHATGPT_KEY")
 
 config_list = [
     {
-        'model': 'gpt-3.5-turbo-16k',
-        'api_key': chatgpt_key,
+        # 'model': 'gpt-3.5-turbo-16k',
+        "api_type": "open_ai",
+        "api_base": "http://localhost:1234/v1",
+        "api_key": "NULL",  # NULL because running code locally
     }
 ]
 
@@ -33,14 +38,11 @@ user_proxy = autogen.UserProxyAgent(
     code_execution_config={"work_dir": "web"},
     llm_config=llm_config,
     system_message="""Reply TERMINATE if the task has been solved at full satisfaction.
-    Otherwise, reply CONTINUE, or the reason why the task is not solved yet."""
+    Otherwise, reply CONTINUE, or the reason why the task is not solved yet.""",
 )
 
 task = """
 Give me a summary of this article: https://en.wikipedia.org/wiki/Artificial_intelligence
 """
 
-user_proxy.initiate_chat(
-    assistant,
-    message=task
-)
+user_proxy.initiate_chat(assistant, message=task)
