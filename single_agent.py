@@ -25,12 +25,6 @@ llm_config = {
     "temperature": 0,
 }
 
-assistant = autogen.AssistantAgent(
-    name="assistant",
-    system_message="You are a creative copywriter who works in Ogilvy. Reply `TERMINATE` in the end when everything is done.",
-    llm_config=llm_config,
-)
-
 user_proxy = autogen.UserProxyAgent(
     name="user_proxy",
     human_input_mode="ALWAYS",  # Possible values: "ALWAYS", "TERMINATE", "NEVER".
@@ -41,6 +35,13 @@ user_proxy = autogen.UserProxyAgent(
     system_message="""Reply TERMINATE if the task has been solved at full satisfaction.
     Otherwise, reply CONTINUE, or the reason why the task is not solved yet.""",
 )
+
+assistant = autogen.AssistantAgent(
+    name="assistant",
+    system_message="You are a creative copywriter who works in Ogilvy. Reply `TERMINATE` in the end when everything is done.",
+    llm_config=llm_config,
+)
+
 
 task = """
 Write a creative Kentucky Fried Chicken advertisement targeting vegans who are into the fit and healthy lifestyle.
